@@ -8,39 +8,40 @@ dotenv.config();
  
 
 const get_data_by_id = async (req, res) => {
-    try {
-        const { id } = req.query;
-        
-        if (!id) {
-            return res.status(400).json({ error: 'ID parameter is required' });
-        }
+  try {
+      const { id } = req.query;
+      
+      if (!id) {
+          return res.status(400).json({ error: 'ID parameter is required' });
+      }
 
-        console.log(`Fetching product with ID: ${id}`); // Debug log
+      console.log(`Fetching product with ID: ${id}`); // Debug log
 
-        const sql = 'SELECT * FROM product WHERE ID = ?';
-        const [results] = await db.query(sql,[id]);
-        
-        console.log('Query results:', results); // Debug log
+      const sql = 'select * from product where ID = ?';
+      const [results] = await db.query(sql,[id]);
+      
+      console.log('Query results:', results); // Debug log
 
-        if (!results || results.length === 0) {
-            return res.status(404).json({ 
-                error: 'Product not found',
-                debug: {
-                    searchedId: id,
-                    query: sql
-                }
-            });
-        }
+      if (!results || results.length === 0) {
+          return res.status(404).json({ 
+              error: 'Product not found',
+              debug: {
+                  searchedId: id,
+                  query: sql
+              }
+          });
+      }
 
-        res.json(results); // Return first result if exists
-    } catch(e) {
-        console.error("DB error", e);
-        res.status(500).json({ 
-            error: 'Internal server error',
-            details: e.message // Safely show error message
-        });
-    }
+      res.json(results[0]); // Return first result if exists
+  } catch(e) {
+      console.error("DB error", e);
+      res.status(500).json({ 
+          error: 'Internal server error',
+          details: e.message
+      });
+  }
 };
+
 const get_role = async(req,res)=>{
     try{
         const token=req.cookies.token
@@ -59,7 +60,7 @@ const get_role = async(req,res)=>{
 
 
 
-// const Signup = async (req, res) => {
+
 //     try {
 //         const { name, email, password } = req.body;
 //         console.log(req.body)
