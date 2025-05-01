@@ -18,7 +18,7 @@ const get_data_by_id = async (req, res) => {
         console.log(`Fetching product with ID: ${id}`); // Debug log
 
         const sql = 'SELECT * FROM PRODUCT WHERE ID = ?';
-        const [results] = await db.query(sql,id);
+        const [results] = await db.query(sql,[id]);
         
         console.log('Query results:', results); // Debug log
 
