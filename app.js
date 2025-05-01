@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const controller = require('./controllers/controller_api.js')
 const db = require('./config/config.js');
 const app = EXpress();
-
+app.use(cookieParser());
 
 const allowedOrigins = [
   'https://vercel-frontend-jo3d.vercel.app',

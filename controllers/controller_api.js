@@ -45,7 +45,7 @@ const get_data_by_id = async (req, res) => {
 const get_role = async(req,res)=>{
     try{
         const token=req.cookies.token
-        console.log(token)
+        console.log('token',token)
         if(!token){
            return  res.json({message:'Unotherized',})
         }
