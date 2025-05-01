@@ -379,42 +379,9 @@ const Create_Order = async (req, res) => {
 };
 
 
-// const get_User_ordered_Items = async (req, res) => {
-//   try {
-//     const token = req.cookies.token;
-//     console.log(token);
-//     if (!token) {
-//       return res.status(401).json({ message: 'Unauthorized', redirect: '/signin' });
-//     }
 
-//     const converted_token = jwt.verify(token, process.env.JWT_SECRET);
-//     const user_id = converted_token.user_id; //3
+ 
 
-//     // Query to get the order for the user
-//     const [orders] = await db.query('SELECT * FROM orders WHERE order_id = ?', [user_id]);
-
-//     if (!orders || orders.length === 0) {
-//       return res.status(404).json({ message: 'No orders found for this user' });
-//     }
-
-//     const orderId = orders[0].id;
-//     console.log('order_id', orderId);
-
-//     // Query to get order items
-//     const [order_items] = await db.query('SELECT * FROM order_items WHERE order_id = ?', [orderId]);
-
-//     const Data = {
-//       order: orders[0],
-//       items: order_items
-//     };
-
-//     res.status(200).json(Data);
-//   } catch (err) {
-//     console.log('error',err)
-//     console.log('error', err);
-//     res.status(500).json({ message: 'something went wrong' });
-//   }
-// };
 const get_User_ordered_Items = async (req, res) => {
   try {
     const token = req.cookies.token;
@@ -422,25 +389,24 @@ const get_User_ordered_Items = async (req, res) => {
 
     const { user_id } = jwt.verify(token, process.env.JWT_SECRET);
 
-    // 1. Get ALL orders for this user
+    
     const [orders] = await db.query('SELECT * FROM orders WHERE order_id = ?', [user_id]);
     
     if (!orders?.length) return res.status(404).json({ message: 'No orders found' });
 
-    // 2. Get order IDs for batch query
+   
     const orderIds = orders.map(o => o.id);
 
-    // 3. Get ALL items for ALL orders in one query
+    
     const [order_items] = await db.query('SELECT * FROM order_items WHERE order_id IN (?)', [orderIds]);
 
-    // 4. Organize items by order ID
+    
     const itemsByOrderId = order_items.reduce((acc, item) => {
       acc[item.order_id] = acc[item.order_id] || [];
       acc[item.order_id].push(item);
       return acc;
     }, {});
 
-    // 5. Combine orders with their items
     const result = orders.map(order => ({
       ...order,
       items: itemsByOrderId[order.id] || []
@@ -455,18 +421,15 @@ const get_User_ordered_Items = async (req, res) => {
 
 const get_all_admin_orders = async (req, res) => {
   try {
-    const [orders] = await db.query('SELECT * FROM ORDERS');
-    const [orderItems] = await db.query('SELECT * FROM ORDER_ITEMS');
+    const [orders] = await db.query('SELECT * FROM orders');
+    const [orderItems] = await db.query('SELECT * FROM order_items');
 
-    // Create a map to quickly associate items with their order
     const orderItemsMap = {};
 
-    // Initialize the map with order IDs as keys and empty arrays as values
     for (const order of orders) {
       orderItemsMap[order.id] = [];
     }
 
-    // Populate the map with items
     for (const item of orderItems) {
       if (orderItemsMap[item.order_id]) {
         orderItemsMap[item.order_id].push(item);
