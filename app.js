@@ -40,6 +40,7 @@ app.get('/get-role',controller.get_role)
 app.post('/get-order',controller.Create_Order)
 app.get('/get-user-orders',controller.get_User_ordered_Items)
 app.get('/get-user-admin',controller.get_all_admin_orders)
+app.post('/logout',controller.log_out)
 
 
 

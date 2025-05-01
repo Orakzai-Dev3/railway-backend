@@ -471,13 +471,12 @@ const log_out = async (req, res) => {
       // Still proceed to clear the cookie even if verification fails
     }
 
-    // 4. Clear the cookie with proper options
+   
     res.clearCookie('token', {
-      httpOnly: true,       // Essential for security
-       // HTTPS in production
-      sameSite: 'strict',   // CSRF protection
-      path: '/',            // Same path as when cookie was set
-      domain: process.env.COOKIE_DOMAIN // If using cross-subdomain cookies
+      httpOnly: true,       
+      secure: process.env.NODE_ENV === 'production', 
+      sameSite: 'none',   
+      path: '/' // If using cross-subdomain cookies
     });
 
     // 5. Send success response
@@ -499,4 +498,4 @@ const log_out = async (req, res) => {
 
 
 
-module.exports = {get_all_admin_orders,get_User_ordered_Items,Create_Order,get_data_by_id,Signup,Login,get_role}
+module.exports = {log_out,get_all_admin_orders,get_User_ordered_Items,Create_Order,get_data_by_id,Signup,Login,get_role}
