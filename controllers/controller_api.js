@@ -50,7 +50,7 @@ const get_role = async(req,res)=>{
            return  res.json({message:'Unotherized',})
         }
 
-        const converted_token = jwt.verify(token,process.env.JWT_SECRET)
+        const converted_token = await jwt.verify(token,process.env.JWT_SECRET)
          console.log('converted_token',converted_token)
         return res.json({message:'Otherized',role:converted_token.role ,email:converted_token.email})
         
