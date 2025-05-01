@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv');
 
 dotenv.config();
-
+ 
 
 const get_data_by_id = async (req, res) => {
     try {
@@ -17,7 +17,7 @@ const get_data_by_id = async (req, res) => {
 
         console.log(`Fetching product with ID: ${id}`); // Debug log
 
-        const sql = 'SELECT * FROM PRODUCT WHERE ID = ?';
+        const sql = 'SELECT * FROM product WHERE ID = ?';
         const [results] = await db.query(sql,[id]);
         
         console.log('Query results:', results); // Debug log
@@ -32,7 +32,7 @@ const get_data_by_id = async (req, res) => {
             });
         }
 
-        res.json(results[0]); // Return first result if exists
+        res.json(results); // Return first result if exists
     } catch(e) {
         console.error("DB error", e);
         res.status(500).json({ 
