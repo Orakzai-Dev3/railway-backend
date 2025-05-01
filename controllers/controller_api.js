@@ -45,11 +45,14 @@ const get_data_by_id = async (req, res) => {
 const get_role = async(req,res)=>{
     try{
         const token=req.cookies.token
+        console.log(token)
         if(!token){
            return  res.json({message:'Unotherized',})
         }
+
         const converted_token = jwt.verify(token,process.env.JWT_SECRET)
-         return res.json({message:'Otherized',role:converted_token.role ,email:converted_token.email})
+         console.log('converted_token',converted_token)
+        return res.json({message:'Otherized',role:converted_token.role ,email:converted_token.email})
         
     }catch(err){
        return  res.json('something went wrong')
@@ -126,14 +129,14 @@ const Signup = async (req, res) => {
             return res.status(409).json({ message: 'Email already registered' });
         }
 
-        // Hash password
+        
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Insert new user
+        
         const insertSql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
         const [insertResult] = await db.query(insertSql, [name, email, hashedPassword]);
 
-        // Success response
+        
         res.status(201).json({ 
             success: true,
             message: 'User registered successfully',
