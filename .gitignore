@@ -1,0 +1,22 @@
+# Environment variables
+.env
+
+# Node modules
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# IDE files
+.vscode/
+.idea/
+
+# Database files
+*.sql
+*.db
+
+# Build files
+dist/
+build/
