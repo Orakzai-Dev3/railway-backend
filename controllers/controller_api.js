@@ -480,10 +480,7 @@ const log_out = async (req, res) => {
     });
 
     // 5. Send success response
-    res.status(200).json({ 
-      success: true,
-      message: 'Successfully logged out' 
-    });
+    
 
   } catch (err) {
     console.error('Logout error:', err);
