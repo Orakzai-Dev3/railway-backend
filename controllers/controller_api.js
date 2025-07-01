@@ -64,48 +64,6 @@ const get_role = async(req,res)=>{
 
 
 
-//     try {
-//         const { name, email, password } = req.body;
-//         console.log(req.body)
-
-//         // Validate required fields
-//         if (!name || !email || !password) {
-//             return res.status(400).json({ message: 'All fields are required' });
-//         }
-
-//         // Check if user already exists
-//         const checkSql = 'SELECT * FROM users WHERE name=? AND email = ?';
-//         const [existingUser] = await db.query(checkSql, [name,email]);
-
-//         if (existingUser) {
-//             return res.status(409).json({ message: 'User already registered' });
-//         }
-
-//         // Hash password
-//         const hashedPassword = await bcrypt.hash(password, 10);
-
-//         // Insert new user (role will automatically be set to 'user')
-//         const insertSql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
-//         const [result] = await db.query(insertSql, [name, email, hashedPassword]);
-
-//         // Get the newly created user with default role
-//         const getUserSql = 'SELECT id, name, email, role FROM users WHERE id = ?';
-//         const [newUser] = await db.query(getUserSql, [result.insertId]);
-
-//         // Success response
-//         res.status(201).json({ 
-//             message: 'User registered successfully',
-//             user: newUser
-//         });
-
-//     } catch (err) {
-//         console.error('Signup error:', err);
-//         res.status(500).json({ 
-//             message: 'Internal server error',
-//             error: err.message 
-//         });
-//     }
-// };
 const Signup = async (req, res) => {
     try {
         const { name, email: rawEmail, password } = req.body;
